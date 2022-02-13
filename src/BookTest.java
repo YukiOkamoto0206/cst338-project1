@@ -106,5 +106,10 @@ class BookTest {
 
     @Test
     void testEquals() {
+        Book book1 = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
+        Book book2 = new Book("42-w-87", "Hitchhikers Guide To the Galaxy", "sci-fi", 42, "Douglas Adams", LocalDate.now());
+        assertNotEquals(book1, book2);
+        Book boo3 = book1;
+        assertEquals(book1, boo3);
     }
 }
