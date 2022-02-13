@@ -1,12 +1,13 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Reader {
-    public int CARD_NUMBER_;
-    public int NAME_;
-    public int PHONE_;
-    public int BOOK_COUNT_;
-    public int BOOK_START_;
+    public static final int CARD_NUMBER_ = 0;
+    public static final int NAME_ = 0;
+    public static final int PHONE_ = 0;
+    public static final int BOOK_COUNT_ = 0;
+    public static final int BOOK_START_ = 0;
 
     private int cardNumber;
     private String name;
@@ -17,11 +18,12 @@ public class Reader {
         this.cardNumber = cardNumber;
         this.name = name;
         this.phone = phone;
+        this.books = new ArrayList<>();
     }
 
     public Code addBook(Book book) {
         for (Book data : books) {
-            if (data.equals(book)) {
+            if (book.equals(data)) {
                 return Code.BOOK_ALREADY_CHECKED_OUT_ERROR;
             }
         }
@@ -37,6 +39,10 @@ public class Reader {
             }
         }
         return Code.READER_DOESNT_HAVE_BOOK_ERROR;
+    }
+
+    public int getBookCount() {
+        return books.size();
     }
 
     public boolean hasBook(Book book) {
