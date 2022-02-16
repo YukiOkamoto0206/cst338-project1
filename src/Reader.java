@@ -22,23 +22,21 @@ public class Reader {
     }
 
     public Code addBook(Book book) {
-        for (Book data : books) {
-            if (book.equals(data)) {
-                return Code.BOOK_ALREADY_CHECKED_OUT_ERROR;
-            }
+        if (hasBook(book)) {
+            return Code.BOOK_ALREADY_CHECKED_OUT_ERROR;
         }
         books.add(book);
         return Code.SUCCESS;
     }
 
     public Code removeBook(Book book) {
-        for (Book data : books) {
-            if (data.equals(book)) {
-                books.remove(book);
-                return Code.SUCCESS;
-            }
+        if (!hasBook(book)) {
+            return Code.READER_DOESNT_HAVE_BOOK_ERROR;
         }
-        return Code.READER_DOESNT_HAVE_BOOK_ERROR;
+        if (books.remove(book)) {
+            return Code.SUCCESS;
+        }
+        return Code.READER_COULD_NOT_REMOVE_BOOK_ERROR;
     }
 
     public int getBookCount() {
