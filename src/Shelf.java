@@ -74,6 +74,18 @@ public class Shelf {
     // listBooks
 
     // removeBook
+    public Code removeBook(Book book) {
+        if (!books.containsKey(book)) {
+            return Code.BOOK_NOT_IN_INVENTORY_ERROR;
+        } else {
+            if (books.get(book) == 0) {
+                return Code.BOOK_NOT_IN_INVENTORY_ERROR;
+            } else {
+                books.replace(book, books.get(book) - 1);
+                return Code.SUCCESS;
+            }
+        }
+    }
 
     public void setBooks(HashMap<Book, Integer> books) {
         this.books = books;
