@@ -61,10 +61,6 @@ public class Shelf {
 
     @Override
     public String toString() {
-        return "Shelf{" +
-                "shelfNumber=" + shelfNumber +
-                ", subject='" + subject + '\'' +
-                ", books=" + books +
-                '}';
+        return shelfNumber + " : " + subject;
     }
 }
