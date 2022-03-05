@@ -1,6 +1,11 @@
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * Author:
+ * Date: March 4 2022
+ * Concrete:
+ */
 public class Shelf {
     public static final int SHELF_NUMBER_ = 0;
     public static final int SUBJECT_ = 0;
@@ -25,6 +30,13 @@ public class Shelf {
     }
 
     // getBookCount
+    public int getBookCount(Book book) {
+        if (books.containsKey(book)) {
+            return books.get(book);
+        } else {
+            return -1;
+        }
+    }
 
     public HashMap<Book, Integer> getBooks() {
         return books;
