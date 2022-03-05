@@ -20,6 +20,22 @@ public class Shelf {
     }
 
     // addBook
+    public Code addBook(Book book) {
+        if (books.containsKey(book)) {
+            // the count(Integer in Hashmap) should be incremented
+            books.replace(book, books.get(book) + 1);
+            System.out.println(book + " added to self");
+            return Code.SUCCESS;
+        } else {
+            if (subject.equals(book.getSubject())) {
+                books.put(book, 1);
+                System.out.println(book + " added to self");
+                return Code.SUCCESS;
+            } else {
+                return Code.SHELF_SUBJECT_MISMATCH_ERROR;
+            }
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
