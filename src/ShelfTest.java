@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -72,6 +74,24 @@ public class ShelfTest {
 
     @Test
     void removeBook() {
+        Book book = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
+        Shelf shelf_education = new Shelf(shelfNumber, subject);
+        shelf_education.addBook(book);
+        Book mismatch_book = new Book("1337", "Headfirst Java", "programming", 1337, "Grady Booch", LocalDate.now());
+        assertEquals(shelf_education.removeBook(mismatch_book), Code.BOOK_NOT_IN_INVENTORY_ERROR);
+
+        Book copy_book = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
+        shelf_education.addBook(copy_book);
+        shelf_education.addBook(copy_book);
+        shelf_education.addBook(copy_book);
+        assertEquals(shelf_education.getBookCount(book), 4);
+        assertEquals(shelf_education.removeBook(book), Code.SUCCESS);
+        assertEquals(shelf_education.getBookCount(book), 3);
+
+        assertEquals(shelf_education.removeBook(copy_book), Code.SUCCESS);
+        assertEquals(shelf_education.removeBook(copy_book), Code.SUCCESS);
+        assertEquals(shelf_education.removeBook(copy_book), Code.SUCCESS);
+        assertEquals(shelf_education.getBookCount(book), 0);
     }
 
     @Test
