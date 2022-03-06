@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Author: Yuki Okamoto
@@ -96,10 +97,31 @@ public class ShelfTest {
 
     @Test
     void getBookCount() {
+        Random random = new Random();
+        int r = random.nextInt(10) + 1;
+        Book book = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
+        Shelf shelf_education = new Shelf(shelfNumber, subject);
+        int i;
+        for (i = 0; i < r; i++) {
+            shelf_education.addBook(book);
+        }
+        assertEquals(shelf_education.getBookCount(book), i);
+
+        shelf_education.removeBook(book);
+        assertEquals(shelf_education.getBookCount(book), i - 1);
+
+        for (int j = 0; j < i; j++) {
+            shelf_education.removeBook(book);
+        }
+        assertEquals(shelf_education.getBookCount(book), 0);
+
+        Book mismatch_book = new Book("1337", "Headfirst Java", "programming", 1337, "Grady Booch", LocalDate.now());
+        assertEquals(shelf_education.getBookCount(mismatch_book), -1);
     }
 
     @Test
     void listBooks() {
+
     }
 
 }
