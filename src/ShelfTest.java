@@ -63,7 +63,6 @@ public class ShelfTest {
 
     @Test
     void setShelfNumber_test() {
-        Book book = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
         Shelf shelf_education = new Shelf(shelfNumber, subject);
         assertNotEquals(shelf_education.getShelfNumber(),10);
         shelf_education.setShelfNumber(10);
@@ -71,7 +70,11 @@ public class ShelfTest {
     }
 
     @Test
-    void setSubject() {
+    void setSubject_test() {
+        Shelf shelf_education = new Shelf(shelfNumber, subject);
+        assertNotEquals(shelf_education.getSubject(),"test");
+        shelf_education.setSubject("test");
+        assertEquals(shelf_education.getSubject(),"test");
     }
 
     @Test
