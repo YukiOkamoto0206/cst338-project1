@@ -64,17 +64,17 @@ public class ShelfTest {
     @Test
     void setShelfNumber_test() {
         Shelf shelf_education = new Shelf(shelfNumber, subject);
-        assertNotEquals(shelf_education.getShelfNumber(),10);
+        assertNotEquals(shelf_education.getShelfNumber(), 10);
         shelf_education.setShelfNumber(10);
-        assertEquals(shelf_education.getShelfNumber(),10);
+        assertEquals(shelf_education.getShelfNumber(), 10);
     }
 
     @Test
     void setSubject_test() {
         Shelf shelf_education = new Shelf(shelfNumber, subject);
-        assertNotEquals(shelf_education.getSubject(),"test");
+        assertNotEquals(shelf_education.getSubject(), "test");
         shelf_education.setSubject("test");
-        assertEquals(shelf_education.getSubject(),"test");
+        assertEquals(shelf_education.getSubject(), "test");
     }
 
     @Test
