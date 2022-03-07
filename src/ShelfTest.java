@@ -79,6 +79,11 @@ public class ShelfTest {
 
     @Test
     void testEquals() {
+        Shelf shelf_education = new Shelf(shelfNumber, subject);
+        Shelf shelf_education_copy = new Shelf(1001, "education");
+        assertTrue(shelf_education.equals(shelf_education_copy));
+        Shelf shelf_education_wrong = new Shelf(1001, "hahaha");
+        assertFalse(shelf_education.equals(shelf_education_wrong));
     }
 
     @Test
