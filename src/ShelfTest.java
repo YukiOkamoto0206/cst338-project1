@@ -29,10 +29,11 @@ public class ShelfTest {
 
     @Test
     void getBooks_test() {
-//        Shelf shelf_education = new Shelf(1001, "education");
         Book book = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
-        books = new HashMap<>();
+        Shelf shelf_education = new Shelf(shelfNumber, subject);
+        shelf_education.addBook(book);
         books.put(book, 1);
+        assertEquals(shelf_education.getBooks(), books);
     }
 
     @Test
