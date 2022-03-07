@@ -46,6 +46,10 @@ public class ShelfTest {
 
     @Test
     void getSubject_test() {
+        Book book = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
+        Shelf shelf_education = new Shelf(shelfNumber, subject);
+        shelf_education.addBook(book);
+        assertEquals(shelf_education.getSubject(), subject);
     }
 
     @Test
