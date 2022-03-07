@@ -1,10 +1,13 @@
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 
 /**
- * Author:
- * Date: March 4 2022
- * Concrete:
+ * Author: Yuki Okamoto
+ * Date: March 6 2022
+ * Concrete: Shelf file to implement the class for Project 01: 03/04
  */
 public class Shelf {
     public static final int SHELF_NUMBER_ = 0;
@@ -72,6 +75,15 @@ public class Shelf {
     }
 
     // listBooks
+    public String listBooks() {
+        String lists = "";
+        Iterator iterator = books.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry book = (Map.Entry) iterator.next();
+            lists += book.getValue() + " books on shelf: " + shelfNumber + " : "+ subject + "\n" + book.getKey().toString() + "\n\n";
+        }
+        return lists;
+    }
 
     // removeBook
     public Code removeBook(Book book) {
