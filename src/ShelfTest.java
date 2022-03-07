@@ -147,8 +147,13 @@ public class ShelfTest {
     }
 
     @Test
-    void listBooks() {
-
+    void listBooks_test() {
+        Book book = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
+        Shelf shelf_education = new Shelf(shelfNumber, subject);
+        shelf_education.addBook(book);
+        String compare = "1 books on shelf: 1001 : education\n" +
+                "Headfirst Java byGrady BoochISBN: 1337\n\n";
+        assertEquals(shelf_education.listBooks(), compare);
     }
 
 }
