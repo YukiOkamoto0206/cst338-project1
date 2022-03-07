@@ -53,7 +53,12 @@ public class ShelfTest {
     }
 
     @Test
-    void setBooks() {
+    void setBooks_test() {
+        Book book = new Book("1337", "Headfirst Java", "education", 1337, "Grady Booch", LocalDate.now());
+        books.put(book, 1);
+        Shelf shelf_education = new Shelf(shelfNumber, subject);
+        shelf_education.setBooks(books);
+        assertEquals(shelf_education.getBooks(), books);
     }
 
     @Test
