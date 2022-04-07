@@ -233,7 +233,7 @@ public class Library {
                 book.setDueDate(dueDdate);
                 System.out.println(this.checkOutBook(reader, book));
             }
-            return Code.SUCCESS
+            return Code.SUCCESS;
         }
     }
 
