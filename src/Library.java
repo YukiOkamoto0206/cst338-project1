@@ -157,7 +157,12 @@ public class Library {
 
             addShelf(shelf);
         }
-
+        if (shelves.size() == shelfCount) {
+            return Code.SUCCESS;
+        } else {
+            System.out.println("number of shelves doesn't match expected");
+            return Code.SHELF_NUMBER_PARSE_ERROR;
+        }
     }
 
     public Code addShelf(String shelfSubject) {
