@@ -237,6 +237,29 @@ public class Library {
         return Code.SUCCESS;
     }
 
+    public Code returnBook(Reader reader, Book book) {
+        if (!reader.hasBook(book)) {
+            System.out.println(reader.getName() + " Doesn't have " + book + " Checked out");
+            return Code.READER_DOESNT_HAVE_BOOK_ERROR;
+        }
+
+        if (!books.containsKey(book)) {
+            System.out.println(book + " does not belong to this library");
+            return Code.BOOK_NOT_IN_INVENTORY_ERROR;
+        }
+
+        System.out.println(reader.getName() + " is returning " + book);
+        Code code = reader.removeBook(book);
+
+        if (code.equals(Code.SUCCESS)) {
+            code = returnBook(book);
+        } else {
+            System.out.println("Could not return " + book);
+        }
+
+        return code;
+    }
+
     public static int convertInt(String recordCountString, Code code) {
         int recordCount;
         try {
@@ -283,6 +306,15 @@ public class Library {
             return LocalDate.of(1970, 1, 1);
         }
         return LocalDate.of(year, month, day);
+    }
+
+    private Code errorCode(int codeNumber) {
+        for (Code code : Code.values()) {
+            if (code.getCode() == codeNumber) {
+                return code;
+            }
+        }
+        return Code.UNKNOWN_ERROR;
     }
 
 }
