@@ -113,6 +113,26 @@ public class Library {
         return Code.SUCCESS;
     }
 
+    public Code addBook(Book newBook) {
+        if (books.containsKey(newBook)) {
+            int count = books.get(newBook);
+            count++;
+            books.put(newBook, count);
+            System.out.println(books.get(newBook) + " copies of " + newBook + " in the stack");
+        } else {
+            books.put(newBook, 1);
+            System.out.println(newBook + " added to the stacks.");
+        }
+
+        for (Shelf shelf: shelves.values()) {
+            if (shelf.getSubject().equalsIgnoreCase(newBook.getSubject()));
+            shelf.addBook(newBook);
+            return Code.SUCCESS;
+        }
+        System.out.println("No shelf for " + newBook.getSubject() + " books");
+        return Code.SHELF_EXISTS_ERROR;
+    }
+
     private Code initShelves(int shelfCount, Scanner scan) {
 
     }
