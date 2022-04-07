@@ -1,58 +1,102 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Library {
     public static int LENDING_LIMIT = 5;
     private String name;
-    private static int libraryCard;
-    private List<Reader> readers;
-    private HashMap<String, Shelf> shelves;
-    private HashMap<Book, Integer> books;
+    private static int libraryCard = 0;
+    private List<Reader> readers = new ArrayList<>();
+    private HashMap<String, Shelf> shelves = new HashMap<>();
+    private HashMap<Book, Integer> books = new HashMap<>();
 
-    public Library(String library) {
-
+    public Library(String name) {
+        this.name = name;
     }
 
     public Code init(String filename) {
+        String line = "";
         File file = new File(filename);
-        Code code = null;
-        System.out.println(filename);
-        System.out.println(file);
+        Scanner scan;
+
         try {
-            System.out.println("00");
-            Scanner scan = new Scanner(file);
-            System.out.println(scan);
-            System.out.println("11");
-//            scan.useDelimiter(",");
-            while (scan.hasNext()) {
-                System.out.println(scan.nextLine());
-            }
-            System.out.println("22");
-            scan.close();
-            int count_books = convertInt(scan.nextLine(), code);
-            if (count_books < 0) {
-                System.out.println("count_books is less than 0");
-                return Code.UNKNOWN_ERROR;
-            } else {
-                return initBooks(count_books, scan);
-            }
+            scan = new Scanner(file);
         } catch (FileNotFoundException e) {
             return Code.FILE_NOT_FOUND_ERROR;
         }
-    }
 
-    private Code initBooks(int bookCount, Scanner scan) {
-        if (bookCount < 1) {
-            return Code.LIBRARY_ERROR;
-        } else {
-            for (int i = 0; i < bookCount; i++) {
-                System.out.println(scan.next());
-
+        if (scan.hasNextLine()) {
+            line = scan.nextLine().trim();
+            int count_books = convertInt(line, Code.BOOK_COUNT_ERROR);
+            if (count_books < 0) {
+                return Code.UNKNOWN_ERROR;
             }
+            initBooks(count_books, scan);
+
+            line = scan.nextLine().trim();
+            int count_shelves = convertInt(line, Code.SHELF_COUNT_ERROR);
+            if (count_shelves < 0) {
+                return Code.UNKNOWN_ERROR;
+            }
+            initShelves(count_shelves, scan);
+            listShelves(true);
+
+            line = scan.nextLine().trim();
+            int count_records = convertInt(line, Code.SHELF_COUNT_ERROR);
+            if (count_records < 0) {
+                return Code.UNKNOWN_ERROR;
+            }
+            initReader(count_records, scan);
+            listReaders();
         }
         return Code.SUCCESS;
+    }
+
+//    private Code initBooks(int bookCount, Scanner scan) {
+//        if (bookCount < 1) {
+//            return Code.LIBRARY_ERROR;
+//        } else {
+//            for (int i = 0; i < bookCount; i++) {
+//                String[] arr = scan.next().split(",");
+//                int page = convertInt(arr[3], Code.PAGE_COUNT_ERROR);
+//                new Book(arr[0], arr[1], arr[2], page, arr[4], arr[5]);
+//
+//            }
+//        }
+//        return Code.SUCCESS;
+//    }
+private Code initBooks(int bookCount, Scanner scan){
+
+    String[] bookData;
+    Book book;
+    LocalDate date;
+    int pageCount;
+
+    if(bookCount < 1){
+        return Code.LIBRARY_ERROR;
+    }
+
+    for(int i = 0; i < bookCount; i++){
+        bookData = scan.nextLine().split(",");
+
+        pageCount = convertInt(bookData[Book.PAGE_COUNT_], Code.PAGE_COUNT_ERROR);
+        date = convertDate(bookData[Book.DUE_DATE_], Code.DATE_CONVERSION_ERROR);
+
+        if(pageCount <= 0){
+            return Code.PAGE_COUNT_ERROR;
+        } else if(date == null) {
+            return Code.DATE_CONVERSION_ERROR;
+        } else {
+            book = new Book(bookData[Book.ISBN_], bookData[Book.TITLE_], bookData[Book.SUBJECT_],
+                    pageCount, bookData[Book.AUTHOR_], date);
+            addBook(book);
+        }
+    }
+    return Code.SUCCESS;
+}
+    private Code initShelves(int shelfCount, Scanner scan) {
+
     }
 
     public static int convertInt(String str, Code code) {
@@ -63,4 +107,15 @@ public class Library {
             return parseInt;
         }
     }
+
+    public static LocalDate convertDate(String date, Code code) {
+        LocalDate local;
+        if (date.equals("0000")) {
+            local = new LocalDate(1970, 1, 1);
+            return local;
+        }
+        String[] arr = date.split("-");
+
+    }
+
 }
