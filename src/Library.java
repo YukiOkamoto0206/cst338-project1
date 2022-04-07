@@ -308,6 +308,10 @@ public class Library {
         return LocalDate.of(year, month, day);
     }
 
+    public static int getLibraryCardNumber() {
+        return libraryCard + 1;
+    }
+
     private Code errorCode(int codeNumber) {
         for (Code code : Code.values()) {
             if (code.getCode() == codeNumber) {
