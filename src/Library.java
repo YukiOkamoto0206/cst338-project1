@@ -124,8 +124,8 @@ public class Library {
             System.out.println(newBook + " added to the stacks.");
         }
 
-        for (Shelf shelf: shelves.values()) {
-            if (shelf.getSubject().equalsIgnoreCase(newBook.getSubject()));
+        for (Shelf shelf : shelves.values()) {
+            if (shelf.getSubject().equalsIgnoreCase(newBook.getSubject())) ;
             shelf.addBook(newBook);
             return Code.SUCCESS;
         }
@@ -134,7 +134,63 @@ public class Library {
     }
 
     private Code initShelves(int shelfCount, Scanner scan) {
+        if (shelfCount < 1) {
+            System.out.println("Error: Number of shelves doesn't make sense [initShelves]");
+            return Code.SHELF_COUNT_ERROR;
+        }
+        Shelf shelf = null;
 
+        for (int i = 1; i <= shelfCount; i++) {
+            String current = scan.nextLine();
+            System.out.println("Parsing shelf : " + current);
+            String[] tokens = current.split(",");
+
+            int shelfNumber = convertInt(tokens[Shelf.SHELF_NUMBER_], Code.SHELF_NUMBER_PARSE_ERROR);
+
+            if (shelfNumber < 0) {
+                return errorCode(shelfNumber);
+            }
+
+            String subject = tokens[Shelf.SUBJECT_];
+
+            shelf = new Shelf(shelfNumber, subject);
+
+            addShelf(shelf);
+        }
+
+    }
+
+    public Code addShelf(String shelfSubject) {
+        Shelf shelf = new Shelf(shelves.size() + 1, shelfSubject);
+        return addShelf(shelf);
+    }
+
+    public Code addShelf(Shelf shelf) {
+        if (shelves.containsKey(shelf.getSubject())) {
+            System.out.println("Error: shelf already exists " + shelf);
+            return Code.SHELF_EXISTS_ERROR;
+        }
+        int maxNumber = 0;
+        for (Shelf s : shelves.values()) {
+            if (maxNumber > s.getShelfNumber()) {
+                maxNumber = s.getShelfNumber() + 1;
+            }
+        }
+
+        if (shelf.getShelfNumber() < maxNumber) {
+            shelf.setShelfNumber(maxNumber);
+        }
+
+        shelves.put(shelf.getSubject(), shelf);
+
+        for (Book book : books.keySet()) {
+            if (book.getSubject().equalsIgnoreCase(shelf.getSubject())) {
+                for (int i = 0; i < books.get(book); i++) {
+                    shelf.addBook(book);
+                }
+            }
+        }
+        return Code.SUCCESS;
     }
 
     public static int convertInt(String recordCountString, Code code) {
