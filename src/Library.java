@@ -74,48 +74,45 @@ public class Library {
         return currentCode;
     }
 
-//    private Code initBooks(int bookCount, Scanner scan) {
-//        if (bookCount < 1) {
-//            return Code.LIBRARY_ERROR;
-//        } else {
-//            for (int i = 0; i < bookCount; i++) {
-//                String[] arr = scan.next().split(",");
-//                int page = convertInt(arr[3], Code.PAGE_COUNT_ERROR);
-//                new Book(arr[0], arr[1], arr[2], page, arr[4], arr[5]);
-//
-//            }
-//        }
-//        return Code.SUCCESS;
-//    }
-private Code initBooks(int bookCount, Scanner scan){
+    private Code initBooks(int bookCount, Scanner scan) {
+        if (bookCount < 1) {
+            System.out.println("Error: Number of Books doesn't make sense");
+            return Code.LIBRARY_ERROR;
+        }
+        for (int i = 0; i < bookCount; i++) {
+            String current = scan.nextLine();
+            System.out.println("parsing book: " + current);
 
-    String[] bookData;
-    Book book;
-    LocalDate date;
-    int pageCount;
+            String[] tokens = current.split(",");
+            if (tokens.length < Book.DUE_DATE_) {
+                return Code.BOOK_COUNT_ERROR;
+            }
 
-    if(bookCount < 1){
-        return Code.LIBRARY_ERROR;
-    }
+            String isbn = tokens[Book.ISBN_];
+            String title = tokens[Book.TITLE_];
 
-    for(int i = 0; i < bookCount; i++){
-        bookData = scan.nextLine().split(",");
+            int pageCount = convertInt(tokens[Book.PAGE_COUNT_], Code.PAGE_COUNT_ERROR);
 
-        pageCount = convertInt(bookData[Book.PAGE_COUNT_], Code.PAGE_COUNT_ERROR);
-        date = convertDate(bookData[Book.DUE_DATE_], Code.DATE_CONVERSION_ERROR);
+            if (pageCount <= 0) {
+                System.out.println("Error: parsing page count failed in initBooks");
+                return Code.PAGE_COUNT_ERROR;
+            }
 
-        if(pageCount <= 0){
-            return Code.PAGE_COUNT_ERROR;
-        } else if(date == null) {
-            return Code.DATE_CONVERSION_ERROR;
-        } else {
-            book = new Book(bookData[Book.ISBN_], bookData[Book.TITLE_], bookData[Book.SUBJECT_],
-                    pageCount, bookData[Book.AUTHOR_], date);
+            LocalDate dueDate = convertDate(tokens[Book.DUE_DATE_], Code.DUE_DATE_ERROR;
+            if (dueDate == null) {
+                System.out.println("Error: converting data failed in initBooks");
+                return Code.DATE_CONVERSION_ERROR;
+            }
+
+            String author = tokens[Book.AUTHOR_];
+            String subject = tokens[Book.SUBJECT_];
+            Book book = new Book(isbn, title, subject, pageCount, author, dueDate);
             addBook(book);
         }
+
+        return Code.SUCCESS;
     }
-    return Code.SUCCESS;
-}
+
     private Code initShelves(int shelfCount, Scanner scan) {
 
     }
@@ -144,14 +141,28 @@ private Code initBooks(int bookCount, Scanner scan){
         return recordCount;
     }
 
-    public static LocalDate convertDate(String date, Code code) {
-        LocalDate local;
+    public static LocalDate convertDate(String date, Code errorCode) {
         if (date.equals("0000")) {
-            local = new LocalDate(1970, 1, 1);
-            return local;
+            return LocalDate.of(1970, 1, 1);
         }
-        String[] arr = date.split("-");
+        String[] parts = date.split("-");
+        if (parts.length < 3) {
+            System.out.println("Error: date conversion error, could not parse" + date);
+            System.out.println("Using default date (01-jan-1970)");
+            return LocalDate.of(1970, 1, 1);
+        }
+        int year = convertInt(parts[0], errorCode);
+        int month = convertInt(parts[1], errorCode);
+        int day = convertInt(parts[2], errorCode);
 
+        if (year < 0 || month < 0 || day < 0) {
+            System.out.println("Error converting date: Year: " + year + ")");
+            System.out.println("Error converting date: Month: " + month + ")");
+            System.out.println("Error converting date: Day: " + day + ")");
+            System.out.println("Using default date (01-jan-1970)");
+            return LocalDate.of(1970, 1, 1);
+        }
+        return LocalDate.of(year, month, day);
     }
 
 }
