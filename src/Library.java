@@ -198,6 +198,45 @@ public class Library {
         return Code.SUCCESS;
     }
 
+    private Code initReader(int readerCount, Scanner scan) {
+        if (readerCount <= 0) {
+            System.out.println("ERROR: ReaderCount must be greater than 0 [initReader]");
+            return Code.READER_COUNT_ERROR;
+        }
+
+        for (int j = 0; j < readerCount; j++) {
+            String current = scan.nextLine();
+            String[] tokens = current.split(",");
+
+            int cardNumber = convertInt(tokens[Reader.CARD_NUMBER_], Code.READER_CARD_NUMBER_ERROR);
+            if (cardNumber > libraryCard) {
+                libraryCard = cardNumber + 1;
+            }
+            String name = tokens[Reader.NAME_];
+            String phoneNumber = tokens[Reader.PHONE_];
+
+            Reader reader = new Reader(cardNumber, name, phoneNumber);
+
+            readers.add(reader);
+
+            int bookCount = convertInt(tokens[Reader.BOOK_COUNT_], Code.BOOK_COUNT_ERROR);
+            int records = tokens.length - bookCount;
+
+            for (int i = Reader.BOOK_START_; i < tokens.length; i++) {
+                Book book = this.getBookByISBN(tokens[i]);
+                i++;
+                if (book == null) {
+                    System.out.println("ERROR!");
+                    continue;
+                }
+                LocalDate dueDdate = convertDate(tokens[i], Code.DUE_DATE_ERROR);
+                book.setDueDate(dueDdate);
+                System.out.println(this.checkOutBook(reader, book));
+            }
+            return Code.SUCCESS
+        }
+    }
+
     public static int convertInt(String recordCountString, Code code) {
         int recordCount;
         try {
