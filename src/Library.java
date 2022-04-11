@@ -226,8 +226,17 @@ public class Library {
 
         return code;
     }
-    // retrunbookkもいっこ
+
+    public Code returnBook(Book book) {
+        if() {
+
+        }
+    }
     //addbooktoshelf
+    private addBookToShelf(Book, Shelf) {
+
+    }
+
     public int listBooks() {
         int countOfBooks = 0;
         StringBuilder sb = new StringBuilder();
@@ -243,7 +252,13 @@ public class Library {
         return countOfBooks;
     }
     //checkoutbook
+    public Code chackOutBook(Reader, Book) {
+
+    }
     //getbookbyisbn
+    public Book getBookByISBN(String)  {
+
+    }
     public Code listShelves(boolean showBooks)  {
         for (Shelf shelf: shelves.values()) {
             if (showBooks) {
@@ -289,11 +304,31 @@ public class Library {
     }
 
     //getshelf2こ
-    //listreaders2こ
-    //getreadrebycard
-    //addrEADER
-    //removerreader
+    public Shelf getShelf(Integer){
 
+    }
+    public Shelf getShelf(String){
+
+    }
+    //listreaders2こ
+    public int ListReaders() {
+
+    }
+    public int ListReaders() {
+
+    }
+    //getreadrebycard
+    public Reader getReaderByCard(int) {
+
+    }
+    //addrEADER
+    public Code addReader(Reader) {
+
+    }
+    //removerreader
+    public Code removeReader(Reader) {
+
+    }
     public static int convertInt(String recordCountString, Code code) {
         int recordCount;
         try {
